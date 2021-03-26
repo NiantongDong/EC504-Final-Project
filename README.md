@@ -19,6 +19,7 @@ We will use Trello board to keep track our progress and assign work to the team.
 - Niantong Dong
 - Zixuan Shu
 - Yiqin Zhang
+- Chen-Wei Weng
 
 ## Milestones
 
