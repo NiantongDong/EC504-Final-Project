@@ -20,3 +20,10 @@ We will use Trello board to keep track our progress and assign work to the team.
 - Zixuan Shu
 - Yiqin Zhang
 
+## Milestones
+
+
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
