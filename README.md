@@ -23,7 +23,10 @@ We will use Trello board to keep track our progress and assign work to the team.
 
 ## Milestones
 
+4/9-4/16
 
+- [ ] Play around the sample code. Try to change layout, create new feature or modify feature.
+- [ ] Create your own branch and upload your code to your own branch.
 
 ## License
 
