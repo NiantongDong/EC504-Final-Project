@@ -7,6 +7,6 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 })
 
-app.listen(1337, () => {
+app.listen(3000, () => {
   console.log("The server is up and running!");
 });

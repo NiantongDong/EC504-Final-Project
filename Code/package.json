@@ -1,7 +1,7 @@
 {
   "name": "pathfinding_algorithms",
   "version": "1.0.0",
-  "description": "",
+  "description": "Welcome to Pathfinding Visualizer! I built this application because I was fascinated by pathfinding algorithms, and I wanted to visualize them in action. I hope that you enjoy playing around with this visualization tool just as much as I enjoyed building it. You can access it here (use Google Chrome!): https://clementmihailescu.github.io/Pathfinding-Visualizer/",
   "main": "index.js",
   "scripts": {
     "start": "nodemon server.js",
@@ -11,6 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.14.0"
+    "express": "^4.17.1",
+    "express-load": "^1.1.16",
+    "nodemon": "^2.0.7",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   }
 }
