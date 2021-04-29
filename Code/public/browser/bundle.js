@@ -959,12 +959,6 @@ Board.prototype.changeStartNodeImages = function() {
     name = "A* Search";
   } else if (this.currentAlgorithm === "greedy") {
     name = "Greedy Best-first Search";
-  // } else if (this.currentAlgorithm === "CLA" && this.currentHeuristic !== "extraPoweredManhattanDistance") {
-  //   name = "Swarm Algorithm";
-  // } else if (this.currentAlgorithm === "CLA" && this.currentHeuristic === "extraPoweredManhattanDistance") {
-  //   name = "Convergent Swarm Algorithm";
-  // } else if (this.currentAlgorithm === "bidirectional") {
-  //   name = "Bidirectional Swarm Algorithm";
   }
   if (unweighted.includes(this.currentAlgorithm)) {
     if (this.currentAlgorithm === "dfs") {
@@ -1000,7 +994,7 @@ Board.prototype.changeStartNodeImages = function() {
     if (this.currentAlgorithm === "dijkstra" ) {
       document.getElementById("operationDescriptor").innerHTML = `Repeatedly examines the closest not-yet-examined vertex, adding its vertices to the set of vertices to be examined.`;
     } else{
-      document.getElementById("operationDescriptor").innerHTML = `It combines exact cost of the path from the start point (Dijkstra) and  heuristic estimated cost to the target (Greedy BFS)`;
+      document.getElementById("operationDescriptor").innerHTML = `It combines exact cost of the path from the start point (Dijkstra) and  heuristic estimated cost to the target (Greedy BFS).`;
     }
   }
 };
