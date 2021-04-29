@@ -939,18 +939,15 @@ Board.prototype.changeStartNodeImages = function() {
     name = "A* Search";
   } else if (this.currentAlgorithm === "greedy") {
     name = "Greedy Best-first Search";
-  } else if (this.currentAlgorithm === "CLA" && this.currentHeuristic !== "extraPoweredManhattanDistance") {
-    name = "Swarm Algorithm";
-  } else if (this.currentAlgorithm === "CLA" && this.currentHeuristic === "extraPoweredManhattanDistance") {
-    name = "Convergent Swarm Algorithm";
-  } else if (this.currentAlgorithm === "bidirectional") {
-    name = "Bidirectional Swarm Algorithm";
   }
   if (unweighted.includes(this.currentAlgorithm)) {
     if (this.currentAlgorithm === "dfs") {
       document.getElementById("algorithmDescriptor").innerHTML = `${name} is <i><b>unweighted</b></i> and <i><b>does not guarantee</b></i> the shortest path!`;
+      document.getElementById("operationDescriptor").innerHTML = `Iterate over all possible paths from start node until they reach the target node.`;
+
     } else {
       document.getElementById("algorithmDescriptor").innerHTML = `${name} is <i><b>unweighted</b></i> and <i><b>guarantees</b></i> the shortest path!`;
+      document.getElementById("operationDescriptor").innerHTML = `Explore all neighbors from start node until they reach the target node.`;
     }
     document.getElementById("weightLegend").className = "strikethrough";
     for (let i = 0; i < 14; i++) {
@@ -959,8 +956,10 @@ Board.prototype.changeStartNodeImages = function() {
       document.styleSheets["1"].rules[j].style.backgroundImage = backgroundImage.replace("triangle", "spaceship");
     }
   } else {
-    if (this.currentAlgorithm === "greedy" || this.currentAlgorithm === "CLA") {
+    if (this.currentAlgorithm === "greedy" ) {
       document.getElementById("algorithmDescriptor").innerHTML = `${name} is <i><b>weighted</b></i> and <i><b>does not guarantee</b></i> the shortest path!`;
+      document.getElementById("operationDescriptor").innerHTML = `A heuristic : it selects the vertex closest to the target.`;
+
     }
     document.getElementById("weightLegend").className = "";
     for (let i = 0; i < 14; i++) {
@@ -969,17 +968,13 @@ Board.prototype.changeStartNodeImages = function() {
       document.styleSheets["1"].rules[j].style.backgroundImage = backgroundImage.replace("spaceship", "triangle");
     }
   }
-  if (this.currentAlgorithm === "bidirectional") {
-
-    document.getElementById("algorithmDescriptor").innerHTML = `${name} is <i><b>weighted</b></i> and <i><b>does not guarantee</b></i> the shortest path!`;
-    document.getElementById("bombLegend").className = "strikethrough";
-    document.getElementById("startButtonAddObject").className = "navbar-inverse navbar-nav disabledA";
-  } else {
-    document.getElementById("bombLegend").className = "";
-    document.getElementById("startButtonAddObject").className = "navbar-inverse navbar-nav";
-  }
   if (guaranteed.includes(this.currentAlgorithm)) {
     document.getElementById("algorithmDescriptor").innerHTML = `${name} is <i><b>weighted</b></i> and <i><b>guarantees</b></i> the shortest path!`;
+    if (this.currentAlgorithm === "dijkstra" ) {
+      document.getElementById("operationDescriptor").innerHTML = `Repeatedly examines the closest not-yet-examined vertex, adding its vertices to the set of vertices to be examined.`;
+    } else{
+      document.getElementById("operationDescriptor").innerHTML = `It combines exact cost of the path from the start point (Dijkstra) and  heuristic estimated cost to the target (Greedy BFS).`;
+    }
   }
 };
 
@@ -1109,10 +1104,6 @@ Board.prototype.toggleButtons = function() {
     }
 
     document.getElementById("startButtonClearBoard").onclick = () => {
-      document.getElementById("startButtonAddObject").innerHTML = '<a href="#">Add Bomb</a></li>';
-
-
-
       let navbarHeight = document.getElementById("navbarDiv").clientHeight;
       let textHeight = document.getElementById("mainText").clientHeight + document.getElementById("algorithmDescriptor").clientHeight;
       let height = Math.floor((document.documentElement.clientHeight - navbarHeight - textHeight) / 28);
@@ -1172,43 +1163,9 @@ Board.prototype.toggleButtons = function() {
       this.clearPath("clickedButton");
     }
 
-    document.getElementById("startButtonAddObject").onclick = () => {
-      let innerHTML = document.getElementById("startButtonAddObject").innerHTML;
-      if (this.currentAlgorithm !== "bidirectional") {
-        if (innerHTML.includes("Add")) {
-          let r = Math.floor(this.height / 2);
-          let c = Math.floor(2 * this.width / 4);
-          let objectNodeId = `${r}-${c}`;
-          if (this.target === objectNodeId || this.start === objectNodeId || this.numberOfObjects === 1) {
-            console.log("Failure to place object.");
-          } else {
-            document.getElementById("startButtonAddObject").innerHTML = '<a href="#">Remove Bomb</a></li>';
-            this.clearPath("clickedButton");
-            this.object = objectNodeId;
-            this.numberOfObjects = 1;
-            this.nodes[objectNodeId].status = "object";
-            document.getElementById(objectNodeId).className = "object";
-          }
-        } else {
-          let objectNodeId = this.object;
-          document.getElementById("startButtonAddObject").innerHTML = '<a href="#">Add Bomb</a></li>';
-          document.getElementById(objectNodeId).className = "unvisited";
-          this.object = null;
-          this.numberOfObjects = 0;
-          this.nodes[objectNodeId].status = "unvisited";
-          this.isObject = false;
-          this.clearPath("clickedButton");
-        }
-      }
-
-    }
-
     document.getElementById("startButtonClearPath").className = "navbar-inverse navbar-nav";
     document.getElementById("startButtonClearWalls").className = "navbar-inverse navbar-nav";
     document.getElementById("startButtonClearBoard").className = "navbar-inverse navbar-nav";
-    if (this.currentAlgorithm !== "bidirectional") {
-      document.getElementById("startButtonAddObject").className = "navbar-inverse navbar-nav";
-    }
     document.getElementById("startButtonCreateMazeTwo").className = "navbar-inverse navbar-nav";
     document.getElementById("startButtonDFS").className = "navbar-inverse navbar-nav";
     document.getElementById("startButtonBFS").className = "navbar-inverse navbar-nav";
@@ -1226,7 +1183,6 @@ Board.prototype.toggleButtons = function() {
     document.getElementById("startButtonBFS").onclick = null;
     document.getElementById("startButtonDijkstra").onclick = null;
     document.getElementById("startButtonGreedy").onclick = null;
-    document.getElementById("startButtonAddObject").onclick = null;
     document.getElementById("startButtonAStar").onclick = null;
     document.getElementById("startButtonCreateMazeTwo").onclick = null;
     document.getElementById("startButtonClearPath").onclick = null;
@@ -1243,7 +1199,6 @@ Board.prototype.toggleButtons = function() {
     document.getElementById("startButtonClearPath").className = "navbar-inverse navbar-nav disabledA";
     document.getElementById("startButtonClearWalls").className = "navbar-inverse navbar-nav disabledA";
     document.getElementById("startButtonClearBoard").className = "navbar-inverse navbar-nav disabledA";
-    document.getElementById("startButtonAddObject").className = "navbar-inverse navbar-nav disabledA";
     document.getElementById("startButtonCreateMazeTwo").className = "navbar-inverse navbar-nav disabledA";
     document.getElementById("startButtonDFS").className = "navbar-inverse navbar-nav disabledA";
     document.getElementById("startButtonBFS").className = "navbar-inverse navbar-nav disabledA";

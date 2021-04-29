@@ -292,6 +292,11 @@
   color: #34495e;
   padding: 15px 25px 15px 25px;
 }
+#operationDescriptor {
+  text-align: center;
+  color: #34495e;
+  padding: 15px 25px 15px 25px;
+}
 
 #mainText > ul li {
   display: inline-block;
