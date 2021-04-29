@@ -1063,6 +1063,7 @@ Board.prototype.toggleButtons = function() {
 
     document.getElementById("startButtonDijkstra").onclick = () => {
       document.getElementById("startButtonStart").innerHTML = '<button id="actualStartButton" class="btn btn-default navbar-btn" type="button">Visualize Dijkstra\'s!</button>'
+      document.getElementById("algorithmTitile").innerHTML = 'Dijkstra Algorithm'
       this.currentAlgorithm = "dijkstra";
       this.changeStartNodeImages();
     }
@@ -1070,6 +1071,7 @@ Board.prototype.toggleButtons = function() {
 
     document.getElementById("startButtonAStar").onclick = () => {
       document.getElementById("startButtonStart").innerHTML = '<button id="actualStartButton" class="btn btn-default navbar-btn" type="button">Visualize A*!</button>'
+      document.getElementById("algorithmTitile").innerHTML = 'A* Algorithm'
       this.currentAlgorithm = "astar";
       this.currentHeuristic = "poweredManhattanDistance"
       this.changeStartNodeImages();
@@ -1078,12 +1080,14 @@ Board.prototype.toggleButtons = function() {
 
     document.getElementById("startButtonGreedy").onclick = () => {
       document.getElementById("startButtonStart").innerHTML = '<button id="actualStartButton" class="btn btn-default navbar-btn" type="button">Visualize Greedy!</button>'
+      document.getElementById("algorithmTitile").innerHTML = 'Greedy Algorithm'
       this.currentAlgorithm = "greedy";
       this.changeStartNodeImages();
     }
 
     document.getElementById("startButtonBFS").onclick = () => {
       document.getElementById("startButtonStart").innerHTML = '<button id="actualStartButton" class="btn btn-default navbar-btn" type="button">Visualize BFS!</button>'
+      document.getElementById("algorithmTitile").innerHTML = 'BFS Algorithm'
       this.currentAlgorithm = "bfs";
       this.clearWeights();
       this.changeStartNodeImages();
@@ -1091,6 +1095,7 @@ Board.prototype.toggleButtons = function() {
 
     document.getElementById("startButtonDFS").onclick = () => {
       document.getElementById("startButtonStart").innerHTML = '<button id="actualStartButton" class="btn btn-default navbar-btn" type="button">Visualize DFS!</button>'
+      document.getElementById("algorithmTitile").innerHTML = 'DFS Algorithm'
       this.currentAlgorithm = "dfs";
       this.clearWeights();
       this.changeStartNodeImages();
