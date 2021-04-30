@@ -354,21 +354,21 @@
   left: 0;
   right: 0;
 }
-
-#skipButton {
+#PathfindingButton {
   color: #ffffff;
   background-color: #1abc9c;
   position: absolute;
   left: 20%;
-  bottom: 20%;
+  bottom: 5%;
+  
 }
 
-#nextButton {
+#SortingButton {
   color: #ffffff;
   background-color: #1abc9c;
   position: absolute;
   right: 20%;
-  bottom: 20%;
+  bottom: 5%;
 }
 
 /*#previousButton {*/
@@ -1218,14 +1218,14 @@ body {
   background-color: #ffffff;
 }
 a {
-  color: #16a085;
+  color: black;
   text-decoration: none;
   -webkit-transition: .25s;
           transition: .25s;
 }
 a:hover,
 a:focus {
-  color: #1abc9c;
+  color: red;
   text-decoration: none;
 }
 a:focus {
