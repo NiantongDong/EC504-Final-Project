@@ -360,7 +360,7 @@
   background-color: #1abc9c;
   position: absolute;
   left: 20%;
-  bottom: 20%;
+  bottom: 5%;
 }
 
 #nextButton {
@@ -368,7 +368,7 @@
   background-color: #1abc9c;
   position: absolute;
   right: 20%;
-  bottom: 20%;
+  bottom: 5%;
 }
 
 /*#previousButton {*/
