@@ -76,6 +76,10 @@
           <div class='text-center'>
             <button class='btn btn-lg btn-primary' id='start-btn'>Start</button>
           </div>
+          <br>  
+          <div class='text-center'>
+            <button class='btn btn-lg btn-primary' onclick="window.location.href='/'">Back</button>
+          </div>
         </div>
         <div class='col-xs-9' id='canvas-div'>
           <canvas width="800px" height="600px" id="main-canvas">
@@ -102,7 +106,6 @@
         }
         update_pivot_select();
         $('#algo-select').change(update_pivot_select);
-
         $('#start-btn').click(function() {
           if (aa !== null) aa.cancel();
 
@@ -111,14 +114,6 @@
           var algo = $('#algo-select').val();
           var pivot_type = $('#pivot-select').val();
           var sort_fn = sorting.get_sort_fn(algo, pivot_type);
-
-          if (algo === 'bitonic_mergesort') {
-            // Round up to the nearest power of 2
-            var n2 = 1;
-            while (n2 < n) n2 *= 2;
-            $('#array-size').val(n2);
-            n = n2;
-          }
 
           var ary = [];
           for (var i = 0; i < n; i++) {
