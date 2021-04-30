@@ -313,18 +313,20 @@
   position: absolute;
   z-index: 1;
 }
-
+#menber {
+  position: center;
+}
 #tutorial {
-  position: absolute;
-  z-index: 3;
+  /*position: absolute;*/
+  /*z-index: 3;*/
   background-color: rgba(255, 255, 255, 1);
-  width: 50%;
+  width: 40%;
   height: 70%;
   border: 2px solid #34495e;
   border-radius: 4px;
   text-align: center;
-  float: right;
-  margin-left: auto;
+  float: left;
+  margin-left: 5%;
   margin-right: auto;
   margin-top: auto;
   margin-bottom: auto;
@@ -333,38 +335,59 @@
   left: 0;
   right: 0;
 }
-
-#nextButton {
-  color: #ffffff;
-  background-color: #1abc9c;
-  position: absolute;
-  right: 2%;
-  bottom: 2%;
-}
-
-#previousButton {
-  color: #ffffff;
-  background-color: #1abc9c;
-  position: absolute;
-  right: 12%;
-  bottom: 2%;
+#tutorial2 {
+  /*position: absolute;*/
+  /*z-index: 3;*/
+  background-color: rgba(255, 255, 255, 1);
+  width: 40%;
+  height: 70%;
+  border: 2px solid #34495e;
+  border-radius: 4px;
+  text-align: center;
+  float: right;
+  margin-left: auto;
+  margin-right: 5%;
+  margin-top: auto;
+  margin-bottom: auto;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 #skipButton {
   color: #ffffff;
   background-color: #1abc9c;
   position: absolute;
-  left: 2%;
-  bottom: 2%;
+  left: 20%;
+  bottom: 20%;
 }
 
-#finishButton {
+#nextButton {
   color: #ffffff;
   background-color: #1abc9c;
   position: absolute;
-  right: 2%;
-  bottom: 2%;
+  right: 20%;
+  bottom: 20%;
 }
+
+/*#previousButton {*/
+/*  color: #ffffff;*/
+/*  background-color: #1abc9c;*/
+/*  position: absolute;*/
+/*  right: 10%;*/
+/*  bottom: 30%;*/
+/*}*/
+
+
+
+/*#finishButton {*/
+/*  color: #ffffff;*/
+/*  background-color: #1abc9c;*/
+/*  position: absolute;*/
+/*  right: 2%;*/
+/*  bottom: 2%;*/
+/*}*/
 
 #finishButton:hover,
 #nextButton:hover,
@@ -373,15 +396,16 @@
   background-color: #48c9b0;
 }
 
-#tutorialCounter {
-  position: absolute;
-  right: 2%;
-  top: 2%;
-}
+/*#tutorialCounter {*/
+/*  position: absolute;*/
+/*  right: 2%;*/
+/*  top: 2%;*/
+/*}*/
 
 #mainTutorialImage {
-  width: 25%;
-  padding-top: 5px;
+  /*width: 45%;*/
+  height: 40%;
+  padding-top: 15px;
 }
 
 #secondTutorialImage {
@@ -405,6 +429,13 @@
   padding-bottom: 5px;
   padding-right: 40px;
   font-size: 14px;
+}
+#tutorial > a {
+  list-style: none;
+  padding-bottom: 5px;
+  padding-right: 40px;
+  font-size: 14px;
+  fout-color: #ffffff;
 }
 
 /*#otherText > ul li {
@@ -1252,7 +1283,13 @@ h6 small,
 .h6 small {
   color: #e7e9ec;
 }
-h1,
+h1{
+  position: center;
+  text-align: center;
+  margin-top: 30px;
+  margin-left: 30px;
+  margin-bottom: 15px;
+}
 h2,
 h3 {
   margin-top: 30px;
