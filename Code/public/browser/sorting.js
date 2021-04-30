@@ -208,48 +208,6 @@ var sorting = (function() {
   }
   
 
-  function odd_even_sort(aa) {
-    var n = aa.length();
-    var sorted = false;
-    while (!sorted) {
-      sorted = true;
-      for (var p = 0; p <= 1; p++) {
-        for (var i = p; i + 1 < n; i += 2) {
-          if (aa.lessThan(i + 1, i)) {
-            aa.swap(i + 1, i);
-            sorted = false;
-          }
-        }
-      }
-    }
-  }
-
-
-  function cocktail_sort(aa) {
-    var n = aa.length();
-    var left = 0;
-    var right = n - 1;
-    while (left < right) {
-      var new_right = right - 1;
-      for (var i = left; i + 1 <= right; i++) {
-        if (aa.lessThan(i + 1, i)) {
-          aa.swap(i + 1, i);
-          new_right = i;
-        }
-      }
-      right = new_right;
-      var new_left = left + 1;
-      for (var i = right; i - 1 >= left; i--)  {
-        if (aa.lessThan(i, i - 1)) {
-          aa.swap(i, i - 1);
-          new_left = i;
-        }
-      }
-      left = new_left;
-    }
-  }
-
-
   function choose_pivot(aa, pivot_type, left, right) {
     if (typeof(left) === 'undefined') left = 0;
     if (typeof(right) === 'undefined') right = aa.length() - 1;
@@ -466,77 +424,20 @@ var sorting = (function() {
     }
   } 
 
-  function introsort(aa, pivot_type, left, right, maxdepth) {
-    if (typeof(left) === 'undefined') left = 0;
-    if (typeof(right) === 'undefined') right = aa.length() - 1;
-
-    var n = right - left + 1;
-    if (typeof(maxdepth) === 'undefined') {
-      maxdepth = 2 * Math.floor(Math.log(n) / Math.log(2));
-    }
-
-    if (n <= 1) return;
-    if (maxdepth === 0) {
-      heapsort(aa, left, right);
-    } else {
-      var pivot = partition(aa, pivot_type, left, right);
-      introsort(aa, pivot_type, left, pivot, maxdepth - 1);
-      introsort(aa, pivot_type, pivot + 1, right, maxdepth - 1);
-    }
-  }
-
-
-  function bitonic_merge(aa, up, left, right) {
-    var n = right - left + 1;
-    var step = Math.floor(n / 2);
-    while (step > 0) {
-      for (var i = 0; i < n; i += step * 2) {
-        var k = 0;
-        for (var j = i; k < step; j++) {
-          var cmp = aa.compare(left + j, left + j + step);
-          if ((up && cmp > 0) || (!up && cmp < 0)) {
-            aa.swap(left + j, left + j + step);
-          }
-          k++;
-        }
-      }
-      step = Math.floor(step / 2);
-    }
-  }
-
-
-  function bitonic_mergesort(aa) {
-    var n = aa.length();
-    var n2 = 1;
-    while (n2 < n) n2 *= 2;
-    if (n !== n2) throw "Bitonic sort must use a power of 2";
-    for (var s = 2; s <= n2; s *= 2) {
-      for (var i = 0; i < n;) {
-        bitonic_merge(aa, true, i, i + s - 1);
-        bitonic_merge(aa, false, i + s, i + 2 * s - 1);
-        i += s * 2;
-      }
-    }
-  }
 
 
   var algorithms = {
     'bubblesort': bubblesort,
     'selectionsort': selectionsort,
-    'odd_even_sort': odd_even_sort,
-    'cocktail_sort': cocktail_sort,
     'insertionsort': insertionsort,
     'heapsort': heapsort,
     'quicksort': quicksort,
     'mergesort': mergesort,
-    'introsort': introsort,
-    'bitonic_mergesort': bitonic_mergesort,
   }
 
   function is_pivot_algo(algo) {
     var pivot_algos = {
       'quicksort': true,
-      'introsort': true,
     };
     return pivot_algos.hasOwnProperty(algo);
   }
@@ -560,6 +461,5 @@ var sorting = (function() {
     'algorithms': algorithms,
   }
 
-  return _sorting;
 
 })();
