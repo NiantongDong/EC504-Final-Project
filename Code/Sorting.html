@@ -76,6 +76,10 @@
           <div class='text-center'>
             <button class='btn btn-lg btn-primary' id='start-btn'>Start</button>
           </div>
+          <br>  
+          <div class='text-center'>
+            <button class='btn btn-lg btn-primary' onclick="window.location.href='/'">Back</button>
+          </div>
         </div>
         <div class='col-xs-9' id='canvas-div'>
           <canvas width="800px" height="600px" id="main-canvas">
@@ -102,7 +106,6 @@
         }
         update_pivot_select();
         $('#algo-select').change(update_pivot_select);
-
         $('#start-btn').click(function() {
           if (aa !== null) aa.cancel();
 
