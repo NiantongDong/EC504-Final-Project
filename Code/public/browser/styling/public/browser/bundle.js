@@ -1,6 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 const weightedSearchAlgorithm = require("../pathfindingAlgorithms/weightedSearchAlgorithm");
 const unweightedSearchAlgorithm = require("../pathfindingAlgorithms/unweightedSearchAlgorithm");
+
 function launchAnimations(board, success, type, object, algorithm, heuristic) {
   let nodes = object ? board.objectNodesToAnimate.slice(0) : board.nodesToAnimate.slice(0);
   let speed = board.speed === "fast" ?
@@ -87,7 +88,7 @@ function launchAnimations(board, success, type, object, algorithm, heuristic) {
     let relevantClassNames = ["start", "target", "object", "visitedStartNodeBlue", "visitedStartNodePurple", "visitedObjectNode", "visitedTargetNodePurple", "visitedTargetNodeBlue"];
     if (!relevantClassNames.includes(currentHTMLNode.className)) {
       currentHTMLNode.className = !bidirectional ?
-        "current" : currentNode.weight === this.weight ?
+        "current" : currentNode.weight === 15 ?
           "visited weight" : "visited";
     }
     if (currentHTMLNode.className === "visitedStartNodePurple" && !object) {
@@ -100,9 +101,9 @@ function launchAnimations(board, success, type, object, algorithm, heuristic) {
       let previousHTMLNode = document.getElementById(previousNode.id);
       if (!relevantClassNames.includes(previousHTMLNode.className)) {
         if (object) {
-          previousHTMLNode.className = previousNode.weight === this.weight ? "visitedobject weight" : "visitedobject";
+          previousHTMLNode.className = previousNode.weight === 15 ? "visitedobject weight" : "visitedobject";
         } else {
-          previousHTMLNode.className = previousNode.weight === this.weight ? "visited weight" : "visited";
+          previousHTMLNode.className = previousNode.weight === 15 ? "visited weight" : "visited";
         }
       }
     }
@@ -177,9 +178,7 @@ module.exports = launchAnimations;
 const weightedSearchAlgorithm = require("../pathfindingAlgorithms/weightedSearchAlgorithm");
 const unweightedSearchAlgorithm = require("../pathfindingAlgorithms/unweightedSearchAlgorithm");
 
-
-function launchInstantAnimations(board, success, type, object, algorithm, heuristic,weight) {
-  console.log(weight);
+function launchInstantAnimations(board, success, type, object, algorithm, heuristic) {
   let nodes = object ? board.objectNodesToAnimate.slice(0) : board.nodesToAnimate.slice(0);
   let shortestNodes;
   for (let i = 0; i < nodes.length; i++) {
@@ -196,7 +195,7 @@ function launchInstantAnimations(board, success, type, object, algorithm, heuris
       board.clearNodeStatuses();
       let newSuccess;
       if (type === "weighted") {
-        newSuccess = weightedSearchAlgorithm(board.nodes, board.object, board.target, board.nodesToAnimate, board.boardArray, algorithm, heuristic,weight);
+        newSuccess = weightedSearchAlgorithm(board.nodes, board.object, board.target, board.nodesToAnimate, board.boardArray, algorithm, heuristic);
       } else {
         newSuccess = unweightedSearchAlgorithm(board.nodes, board.object, board.target, board.nodesToAnimate, board.boardArray, algorithm);
       }
@@ -239,7 +238,7 @@ function launchInstantAnimations(board, success, type, object, algorithm, heuris
     board.clearNodeStatuses();
     let newSuccess;
     if (type === "weighted") {
-      newSuccess = weightedSearchAlgorithm(board.nodes, board.object, board.target, board.nodesToAnimate, board.boardArray, algorithm, weight);
+      newSuccess = weightedSearchAlgorithm(board.nodes, board.object, board.target, board.nodesToAnimate, board.boardArray, algorithm);
     } else {
       newSuccess = unweightedSearchAlgorithm(board.nodes, board.object, board.target, board.nodesToAnimate, board.boardArray, algorithm);
     }
@@ -257,9 +256,9 @@ function launchInstantAnimations(board, success, type, object, algorithm, heuris
       let previousHTMLNode = document.getElementById(previousNode.id);
       if (!relevantClassNames.includes(previousHTMLNode.className)) {
         if (object) {
-          previousHTMLNode.className = previousNode.weight === this.weight ? "instantvisitedobject weight" : "instantvisitedobject";
+          previousHTMLNode.className = previousNode.weight === 15 ? "instantvisitedobject weight" : "instantvisitedobject";
         } else {
-          previousHTMLNode.className = previousNode.weight === this.weight ? "instantvisited weight" : "instantvisited";
+          previousHTMLNode.className = previousNode.weight === 15 ? "instantvisited weight" : "instantvisited";
         }
       }
     }
@@ -282,7 +281,7 @@ function launchInstantAnimations(board, success, type, object, algorithm, heuris
     }
     if (previousNode) {
       let previousHTMLNode = document.getElementById(previousNode.id);
-      previousHTMLNode.className = previousNode.weight === this.weight ? "instantshortest-path weight" : "instantshortest-path";
+      previousHTMLNode.className = previousNode.weight === 15 ? "instantshortest-path weight" : "instantshortest-path";
     } else {
       let element = document.getElementById(board.start);
       element.className = "startTransparent";
@@ -306,7 +305,7 @@ function mazeGenerationAnimations(board) {
           board.toggleButtons();
           return;
         }
-        nodes[index].className = board.nodes[nodes[index].id].weight === this.weight ? "unvisited weight" : "wall";
+        nodes[index].className = board.nodes[nodes[index].id].weight === 15 ? "unvisited weight" : "wall";
         timeout(index + 1);
     }, speed);
   }
@@ -359,7 +358,6 @@ function Board(height, width) {
   this.isObject = false;
   this.buttonsOn = false;
   this.speed = "fast";
-  this.weight = 15;
 }
 
 Board.prototype.initialise = function() {
@@ -477,10 +475,10 @@ Board.prototype.changeSpecialNode = function(currentNode) {
   if (currentNode.status !== "target" && currentNode.status !== "start" && currentNode.status !== "object") {
     if (this.previouslySwitchedNode) {
       this.previouslySwitchedNode.status = this.previouslyPressedNodeStatus;
-      previousElement.className = this.previouslySwitchedNodeWeight === this.weight ?
+      previousElement.className = this.previouslySwitchedNodeWeight === 15 ?
       "unvisited weight" : this.previouslyPressedNodeStatus;
-      this.previouslySwitchedNode.weight = this.previouslySwitchedNodeWeight === this.weight ?
-      this.weight : 0;
+      this.previouslySwitchedNode.weight = this.previouslySwitchedNodeWeight === 15 ?
+      15 : 0;
       this.previouslySwitchedNode = null;
       this.previouslySwitchedNodeWeight = currentNode.weight;
 
@@ -514,10 +512,10 @@ Board.prototype.changeNormalNode = function(currentNode) {
     }
   } else if (this.keyDown === 87 && !unweightedAlgorithms.includes(this.currentAlgorithm)) {
     if (!relevantStatuses.includes(currentNode.status)) {
-      element.className = currentNode.weight !== this.weight ?
+      element.className = currentNode.weight !== 15 ?
         "unvisited weight" : "unvisited";
       currentNode.weight = element.className !== "unvisited weight" ?
-        0 : this.weight;
+        0 : 15;
       currentNode.status = "unvisited";
     }
   }
@@ -711,7 +709,7 @@ Board.prototype.drawShortestPathTimeout = function(targetNodeId, startNodeId, ty
     if (previousNode) {
       if (previousNode !== "object" && previousNode.id !== board.target && previousNode.id !== board.start) {
         let previousHTMLNode = document.getElementById(previousNode.id);
-        previousHTMLNode.className = previousNode.weight === this.weight ? "shortest-path weight" : "shortest-path";
+        previousHTMLNode.className = previousNode.weight === 15 ? "shortest-path weight" : "shortest-path";
       }
     } else {
       let element = document.getElementById(board.start);
@@ -739,7 +737,7 @@ Board.prototype.createMazeOne = function(type) {
       } else if (type === "weight") {
         currentHTMLNode.className = "unvisited weight";
         this.nodes[node].status = "unvisited";
-        this.nodes[node].weight = this.weight;
+        this.nodes[node].weight = 15;
       }
     }
   });
@@ -779,21 +777,21 @@ Board.prototype.clearPath = function(clickedButton) {
         this.algoDone = true;
       } else if (this.currentAlgorithm === "astar") {
         if (!this.numberOfObjects) {
-          success = weightedSearchAlgorithm(this.nodes, this.start, this.target, this.nodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic, this.weight);
+          success = weightedSearchAlgorithm(this.nodes, this.start, this.target, this.nodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic);
           launchAnimations(this, success, "weighted");
         } else {
           this.isObject = true;
-          success = weightedSearchAlgorithm(this.nodes, this.start, this.object, this.objectNodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic, this.weight);
+          success = weightedSearchAlgorithm(this.nodes, this.start, this.object, this.objectNodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic);
           launchAnimations(this, success, "weighted", "object", this.currentAlgorithm, this.currentHeuristic);
         }
         this.algoDone = true;
       } else if (weightedAlgorithms.includes(this.currentAlgorithm)) {
         if (!this.numberOfObjects) {
-          success = weightedSearchAlgorithm(this.nodes, this.start, this.target, this.nodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic, this.weight);
+          success = weightedSearchAlgorithm(this.nodes, this.start, this.target, this.nodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic);
           launchAnimations(this, success, "weighted");
         } else {
           this.isObject = true;
-          success = weightedSearchAlgorithm(this.nodes, this.start, this.object, this.objectNodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic, this.weight);
+          success = weightedSearchAlgorithm(this.nodes, this.start, this.object, this.objectNodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic);
           launchAnimations(this, success, "weighted", "object", this.currentAlgorithm, this.currentHeuristic);
         }
         this.algoDone = true;
@@ -827,10 +825,10 @@ Board.prototype.clearPath = function(clickedButton) {
     currentNode.otherdirection = null;
     let currentHTMLNode = document.getElementById(id);
     let relevantStatuses = ["wall", "start", "target", "object"];
-    if ((!relevantStatuses.includes(currentNode.status) || currentHTMLNode.className === "visitedobject") && currentNode.weight !== this.weight) {
+    if ((!relevantStatuses.includes(currentNode.status) || currentHTMLNode.className === "visitedobject") && currentNode.weight !== 15) {
       currentNode.status = "unvisited";
       currentHTMLNode.className = "unvisited";
-    } else if (currentNode.weight === this.weight) {
+    } else if (currentNode.weight === 15) {
       currentNode.status = "unvisited";
       currentHTMLNode.className = "unvisited weight";
     }
@@ -842,7 +840,7 @@ Board.prototype.clearWalls = function() {
   Object.keys(this.nodes).forEach(id => {
     let currentNode = this.nodes[id];
     let currentHTMLNode = document.getElementById(id);
-    if (currentNode.status === "wall" || currentNode.weight === this.weight) {
+    if (currentNode.status === "wall" || currentNode.weight === 15) {
       currentNode.status = "unvisited";
       currentNode.weight = 0;
       currentHTMLNode.className = "unvisited";
@@ -854,7 +852,7 @@ Board.prototype.clearWeights = function() {
   Object.keys(this.nodes).forEach(id => {
     let currentNode = this.nodes[id];
     let currentHTMLNode = document.getElementById(id);
-    if (currentNode.weight === this.weight) {
+    if (currentNode.weight === 15) {
       currentNode.status = "unvisited";
       currentNode.weight = 0;
       currentHTMLNode.className = "unvisited";
@@ -892,22 +890,22 @@ Board.prototype.instantAlgorithm = function() {
     this.algoDone = true;
   } else if (this.currentAlgorithm === "astar") {
     if (!this.numberOfObjects) {
-      success = weightedSearchAlgorithm(this.nodes, this.start, this.target, this.nodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic, this.weight);
+      success = weightedSearchAlgorithm(this.nodes, this.start, this.target, this.nodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic);
       launchInstantAnimations(this, success, "weighted");
     } else {
       this.isObject = true;
-      success = weightedSearchAlgorithm(this.nodes, this.start, this.object, this.objectNodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic, this.weight);
+      success = weightedSearchAlgorithm(this.nodes, this.start, this.object, this.objectNodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic);
       launchInstantAnimations(this, success, "weighted", "object", this.currentAlgorithm);
     }
     this.algoDone = true;
   }
   if (weightedAlgorithms.includes(this.currentAlgorithm)) {
     if (!this.numberOfObjects) {
-      success = weightedSearchAlgorithm(this.nodes, this.start, this.target, this.nodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic, this.weight);
+      success = weightedSearchAlgorithm(this.nodes, this.start, this.target, this.nodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic);
       launchInstantAnimations(this, success, "weighted");
     } else {
       this.isObject = true;
-      success = weightedSearchAlgorithm(this.nodes, this.start, this.object, this.objectNodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic, this.weight);
+      success = weightedSearchAlgorithm(this.nodes, this.start, this.object, this.objectNodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic);
       launchInstantAnimations(this, success, "weighted", "object", this.currentAlgorithm, this.currentHeuristic);
     }
     this.algoDone = true;
@@ -1089,21 +1087,21 @@ Board.prototype.toggleButtons = function() {
           this.algoDone = true;
         } else if (this.currentAlgorithm === "astar") {
           if (!this.numberOfObjects) {
-            success = weightedSearchAlgorithm(this.nodes, this.start, this.target, this.nodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic, this.weight);
+            success = weightedSearchAlgorithm(this.nodes, this.start, this.target, this.nodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic);
             launchAnimations(this, success, "weighted");
           } else {
             this.isObject = true;
-            success = weightedSearchAlgorithm(this.nodes, this.start, this.object, this.objectNodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic, this.weight);
+            success = weightedSearchAlgorithm(this.nodes, this.start, this.object, this.objectNodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic);
             launchAnimations(this, success, "weighted", "object", this.currentAlgorithm);
           }
           this.algoDone = true;
         } else if (weightedAlgorithms.includes(this.currentAlgorithm)) {
           if (!this.numberOfObjects) {
-            success = weightedSearchAlgorithm(this.nodes, this.start, this.target, this.nodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic, this.weight);
+            success = weightedSearchAlgorithm(this.nodes, this.start, this.target, this.nodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic);
             launchAnimations(this, success, "weighted");
           } else {
             this.isObject = true;
-            success = weightedSearchAlgorithm(this.nodes, this.start, this.object, this.objectNodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic, this.weight);
+            success = weightedSearchAlgorithm(this.nodes, this.start, this.object, this.objectNodesToAnimate, this.boardArray, this.currentAlgorithm, this.currentHeuristic);
             launchAnimations(this, success, "weighted", "object", this.currentAlgorithm, this.currentHeuristic);
           }
           this.algoDone = true;
@@ -1219,7 +1217,7 @@ Board.prototype.toggleButtons = function() {
       this.clearWalls();
       this.clearPath("clickedButton");
       this.toggleButtons();
-      recursiveDivisionMaze(this, 2, this.height - 3, 2, this.width - 3, "horizontal", false, "wall",this.weight);
+      recursiveDivisionMaze(this, 2, this.height - 3, 2, this.width - 3, "horizontal", false, "wall");
       mazeGenerationAnimations(this);
     }
 
@@ -1287,11 +1285,6 @@ Board.prototype.toggleButtons = function() {
 
     document.getElementById("startButtonClearWalls").onclick = () => {
       this.clearWalls();
-    }
-
-    document.getElementById("weightinput").onclick = () => {
-      this.weight = document.getElementById("weight").value;
-      console.log("the weight is " + this.weight) ;
     }
 
     document.getElementById("startButtonClearPath").onclick = () => {
@@ -1394,7 +1387,6 @@ Board.prototype.toggleButtons = function() {
     document.getElementById("adjustFast").onclick = null;
     document.getElementById("adjustAverage").onclick = null;
     document.getElementById("adjustSlow").onclick = null;
-    document.getElementById("weightinput").onclick = null;
 
     document.getElementById("adjustFast").className = "navbar-inverse navbar-nav disabledA";
     document.getElementById("adjustAverage").className = "navbar-inverse navbar-nav disabledA";
@@ -1494,7 +1486,7 @@ function getDistance(nodeOne, nodeTwo) {
 module.exports = getDistance;
 
 },{}],6:[function(require,module,exports){
-function recursiveDivisionMaze(board, rowStart, rowEnd, colStart, colEnd, orientation, surroundingWalls,weight) {
+function recursiveDivisionMaze(board, rowStart, rowEnd, colStart, colEnd, orientation, surroundingWalls) {
   if (rowEnd < rowStart || colEnd < colStart) {
     return;
   }
@@ -1539,14 +1531,14 @@ function recursiveDivisionMaze(board, rowStart, rowEnd, colStart, colEnd, orient
       }
     });
     if (currentRow - 2 - rowStart > colEnd - colStart) {
-      recursiveDivisionMaze(board, rowStart, currentRow - 2, colStart, colEnd, orientation, surroundingWalls,weight);
+      recursiveDivisionMaze(board, rowStart, currentRow - 2, colStart, colEnd, orientation, surroundingWalls);
     } else {
-      recursiveDivisionMaze(board, rowStart, currentRow - 2, colStart, colEnd, "vertical", surroundingWalls,weight);
+      recursiveDivisionMaze(board, rowStart, currentRow - 2, colStart, colEnd, "vertical", surroundingWalls);
     }
     if (rowEnd - (currentRow + 2) > colEnd - colStart) {
-      recursiveDivisionMaze(board, currentRow + 2, rowEnd, colStart, colEnd, "vertical", surroundingWalls,weight);
+      recursiveDivisionMaze(board, currentRow + 2, rowEnd, colStart, colEnd, "vertical", surroundingWalls);
     } else {
-      recursiveDivisionMaze(board, currentRow + 2, rowEnd, colStart, colEnd, "vertical", surroundingWalls,weight);
+      recursiveDivisionMaze(board, currentRow + 2, rowEnd, colStart, colEnd, "vertical", surroundingWalls);
     }
   } else {
     let possibleCols = [];
@@ -1573,14 +1565,14 @@ function recursiveDivisionMaze(board, rowStart, rowEnd, colStart, colEnd, orient
       }
     });
     if (rowEnd - rowStart > currentCol - 2 - colStart) {
-      recursiveDivisionMaze(board, rowStart, rowEnd, colStart, currentCol - 2, "vertical", surroundingWalls,weight);
+      recursiveDivisionMaze(board, rowStart, rowEnd, colStart, currentCol - 2, "vertical", surroundingWalls);
     } else {
-      recursiveDivisionMaze(board, rowStart, rowEnd, colStart, currentCol - 2, orientation, surroundingWalls,weight);
+      recursiveDivisionMaze(board, rowStart, rowEnd, colStart, currentCol - 2, orientation, surroundingWalls);
     }
     if (rowEnd - rowStart > colEnd - (currentCol + 2)) {
-      recursiveDivisionMaze(board, rowStart, rowEnd, currentCol + 2, colEnd, "horizontal", surroundingWalls,weight);
+      recursiveDivisionMaze(board, rowStart, rowEnd, currentCol + 2, colEnd, "horizontal", surroundingWalls);
     } else {
-      recursiveDivisionMaze(board, rowStart, rowEnd, currentCol + 2, colEnd, orientation, surroundingWalls,weight);
+      recursiveDivisionMaze(board, rowStart, rowEnd, currentCol + 2, colEnd, orientation, surroundingWalls);
     }
   }
 };
@@ -1588,7 +1580,7 @@ function recursiveDivisionMaze(board, rowStart, rowEnd, colStart, colEnd, orient
 module.exports = recursiveDivisionMaze;
 
 },{}],7:[function(require,module,exports){
-function recursiveDivisionMaze(board, rowStart, rowEnd, colStart, colEnd, orientation, surroundingWalls, weight) {
+function recursiveDivisionMaze(board, rowStart, rowEnd, colStart, colEnd, orientation, surroundingWalls) {
   if (rowEnd < rowStart || colEnd < colStart) {
     return;
   }
@@ -1633,14 +1625,14 @@ function recursiveDivisionMaze(board, rowStart, rowEnd, colStart, colEnd, orient
       }
     });
     if (currentRow - 2 - rowStart > colEnd - colStart) {
-      recursiveDivisionMaze(board, rowStart, currentRow - 2, colStart, colEnd, orientation, surroundingWalls,weight);
+      recursiveDivisionMaze(board, rowStart, currentRow - 2, colStart, colEnd, orientation, surroundingWalls);
     } else {
-      recursiveDivisionMaze(board, rowStart, currentRow - 2, colStart, colEnd, "horizontal", surroundingWalls,weight);
+      recursiveDivisionMaze(board, rowStart, currentRow - 2, colStart, colEnd, "horizontal", surroundingWalls);
     }
     if (rowEnd - (currentRow + 2) > colEnd - colStart) {
-      recursiveDivisionMaze(board, currentRow + 2, rowEnd, colStart, colEnd, orientation, surroundingWalls,weight);
+      recursiveDivisionMaze(board, currentRow + 2, rowEnd, colStart, colEnd, orientation, surroundingWalls);
     } else {
-      recursiveDivisionMaze(board, currentRow + 2, rowEnd, colStart, colEnd, "vertical", surroundingWalls,weight);
+      recursiveDivisionMaze(board, currentRow + 2, rowEnd, colStart, colEnd, "vertical", surroundingWalls);
     }
   } else {
     let possibleCols = [];
@@ -1667,14 +1659,14 @@ function recursiveDivisionMaze(board, rowStart, rowEnd, colStart, colEnd, orient
       }
     });
     if (rowEnd - rowStart > currentCol - 2 - colStart) {
-      recursiveDivisionMaze(board, rowStart, rowEnd, colStart, currentCol - 2, "horizontal", surroundingWalls,weight);
+      recursiveDivisionMaze(board, rowStart, rowEnd, colStart, currentCol - 2, "horizontal", surroundingWalls);
     } else {
-      recursiveDivisionMaze(board, rowStart, rowEnd, colStart, currentCol - 2, "horizontal", surroundingWalls,weight);
+      recursiveDivisionMaze(board, rowStart, rowEnd, colStart, currentCol - 2, "horizontal", surroundingWalls);
     }
     if (rowEnd - rowStart > colEnd - (currentCol + 2)) {
-      recursiveDivisionMaze(board, rowStart, rowEnd, currentCol + 2, colEnd, "horizontal", surroundingWalls,weight);
+      recursiveDivisionMaze(board, rowStart, rowEnd, currentCol + 2, colEnd, "horizontal", surroundingWalls);
     } else {
-      recursiveDivisionMaze(board, rowStart, rowEnd, currentCol + 2, colEnd, orientation, surroundingWalls,weight);
+      recursiveDivisionMaze(board, rowStart, rowEnd, currentCol + 2, colEnd, orientation, surroundingWalls);
     }
   }
 };
@@ -1682,7 +1674,7 @@ function recursiveDivisionMaze(board, rowStart, rowEnd, colStart, colEnd, orient
 module.exports = recursiveDivisionMaze;
 
 },{}],8:[function(require,module,exports){
-function recursiveDivisionMaze(board, rowStart, rowEnd, colStart, colEnd, orientation, surroundingWalls, type, weight) {
+function recursiveDivisionMaze(board, rowStart, rowEnd, colStart, colEnd, orientation, surroundingWalls, type) {
   if (rowEnd < rowStart || colEnd < colStart) {
     return;
   }
@@ -1701,7 +1693,7 @@ function recursiveDivisionMaze(board, rowStart, rowEnd, colStart, colEnd, orient
             board.nodes[node].weight = 0;
           } else if (type === "weight") {
             board.nodes[node].status = "unvisited";
-            board.nodes[node].weight = weight;
+            board.nodes[node].weight = 15;
           }
         }
       }
@@ -1733,19 +1725,19 @@ function recursiveDivisionMaze(board, rowStart, rowEnd, colStart, colEnd, orient
             board.nodes[node].weight = 0;
           } else if (type === "weight") {
             board.nodes[node].status = "unvisited";
-            board.nodes[node].weight = weight;
+            board.nodes[node].weight = 15;
           }        }
       }
     });
     if (currentRow - 2 - rowStart > colEnd - colStart) {
-      recursiveDivisionMaze(board, rowStart, currentRow - 2, colStart, colEnd, orientation, surroundingWalls, type, weight);
+      recursiveDivisionMaze(board, rowStart, currentRow - 2, colStart, colEnd, orientation, surroundingWalls, type);
     } else {
-      recursiveDivisionMaze(board, rowStart, currentRow - 2, colStart, colEnd, "vertical", surroundingWalls, type, weight);
+      recursiveDivisionMaze(board, rowStart, currentRow - 2, colStart, colEnd, "vertical", surroundingWalls, type);
     }
     if (rowEnd - (currentRow + 2) > colEnd - colStart) {
-      recursiveDivisionMaze(board, currentRow + 2, rowEnd, colStart, colEnd, orientation, surroundingWalls, type, weight);
+      recursiveDivisionMaze(board, currentRow + 2, rowEnd, colStart, colEnd, orientation, surroundingWalls, type);
     } else {
-      recursiveDivisionMaze(board, currentRow + 2, rowEnd, colStart, colEnd, "vertical", surroundingWalls, type, weight);
+      recursiveDivisionMaze(board, currentRow + 2, rowEnd, colStart, colEnd, "vertical", surroundingWalls, type);
     }
   } else {
     let possibleCols = [];
@@ -1772,19 +1764,19 @@ function recursiveDivisionMaze(board, rowStart, rowEnd, colStart, colEnd, orient
             board.nodes[node].weight = 0;
           } else if (type === "weight") {
             board.nodes[node].status = "unvisited";
-            board.nodes[node].weight = weight;
+            board.nodes[node].weight = 15;
           }        }
       }
     });
     if (rowEnd - rowStart > currentCol - 2 - colStart) {
-      recursiveDivisionMaze(board, rowStart, rowEnd, colStart, currentCol - 2, "horizontal", surroundingWalls, type, weight);
+      recursiveDivisionMaze(board, rowStart, rowEnd, colStart, currentCol - 2, "horizontal", surroundingWalls, type);
     } else {
-      recursiveDivisionMaze(board, rowStart, rowEnd, colStart, currentCol - 2, orientation, surroundingWalls, type, weight);
+      recursiveDivisionMaze(board, rowStart, rowEnd, colStart, currentCol - 2, orientation, surroundingWalls, type);
     }
     if (rowEnd - rowStart > colEnd - (currentCol + 2)) {
-      recursiveDivisionMaze(board, rowStart, rowEnd, currentCol + 2, colEnd, "horizontal", surroundingWalls, type , weight);
+      recursiveDivisionMaze(board, rowStart, rowEnd, currentCol + 2, colEnd, "horizontal", surroundingWalls, type);
     } else {
-      recursiveDivisionMaze(board, rowStart, rowEnd, currentCol + 2, colEnd, orientation, surroundingWalls, type, weight);
+      recursiveDivisionMaze(board, rowStart, rowEnd, currentCol + 2, colEnd, orientation, surroundingWalls, type);
     }
   }
 };
@@ -1857,7 +1849,7 @@ function stairDemonstration(board) {
 module.exports = stairDemonstration;
 
 },{}],11:[function(require,module,exports){
-function weightsDemonstration(board,weight) {
+function weightsDemonstration(board) {
   let currentIdX = board.height - 1;
   let currentIdY = 35;
   while (currentIdX > 5) {
@@ -1880,7 +1872,7 @@ function weightsDemonstration(board,weight) {
         currentNode.weight = 0;
       } else {
         currentNode.status = "unvisited";
-        currentNode.weight = weight;
+        currentNode.weight = 15;
       }
     }
   }
@@ -2289,10 +2281,10 @@ function updateNeighborsTwo(nodes, node, boardArray, target, name, start, heuris
   }
 }
 
-function updateNode(currentNode, targetNode, actualTargetNode, name, nodes, actualStartNode, heuristic, boardArray, weight) {
+function updateNode(currentNode, targetNode, actualTargetNode, name, nodes, actualStartNode, heuristic, boardArray) {
   let distance = getDistance(currentNode, targetNode);
-  let weight1 = targetNode.weight === weight ? weight : 1;
-  let distanceToCompare = currentNode.distance + (weight1 + distance[0]) * manhattanDistance(targetNode, actualTargetNode);
+  let weight = targetNode.weight === 15 ? 15 : 1;
+  let distanceToCompare = currentNode.distance + (weight + distance[0]) * manhattanDistance(targetNode, actualTargetNode);
   if (distanceToCompare < targetNode.distance) {
     targetNode.distance = distanceToCompare;
     targetNode.previousNode = currentNode.id;
@@ -2301,10 +2293,10 @@ function updateNode(currentNode, targetNode, actualTargetNode, name, nodes, actu
   }
 }
 
-function updateNodeTwo(currentNode, targetNode, actualTargetNode, name, nodes, actualStartNode, heuristic, boardArray, weight) {
+function updateNodeTwo(currentNode, targetNode, actualTargetNode, name, nodes, actualStartNode, heuristic, boardArray) {
   let distance = getDistanceTwo(currentNode, targetNode);
-  let weight1 = targetNode.weight === weight ? weight : 1;
-  let distanceToCompare = currentNode.otherdistance + (weight1 + distance[0]) * manhattanDistance(targetNode, actualTargetNode);
+  let weight = targetNode.weight === 15 ? 15 : 1;
+  let distanceToCompare = currentNode.otherdistance + (weight + distance[0]) * manhattanDistance(targetNode, actualTargetNode);
   if (distanceToCompare < targetNode.otherdistance) {
     targetNode.otherdistance = distanceToCompare;
     targetNode.otherpreviousNode = currentNode.id;
@@ -2682,7 +2674,7 @@ module.exports = unweightedSearchAlgorithm;
 },{}],16:[function(require,module,exports){
 const astar = require("./astar");
 
-function weightedSearchAlgorithm(nodes, start, target, nodesToAnimate, boardArray, name, heuristic,weight) {
+function weightedSearchAlgorithm(nodes, start, target, nodesToAnimate, boardArray, name, heuristic) {
   if (name === "astar") return astar(nodes, start, target, nodesToAnimate, boardArray, name)
   if (!start || !target || start === target) {
     return false;
@@ -2702,9 +2694,9 @@ function weightedSearchAlgorithm(nodes, start, target, nodesToAnimate, boardArra
     currentNode.status = "visited";
     if (currentNode.id === target) return "success!";
     if (name === "CLA" || name === "greedy") {
-      updateNeighbors(nodes, currentNode, boardArray, target, name, start, heuristic,weight);
+      updateNeighbors(nodes, currentNode, boardArray, target, name, start, heuristic);
     } else if (name === "dijkstra") {
-      updateNeighbors(nodes, currentNode, boardArray,weight);
+      updateNeighbors(nodes, currentNode, boardArray);
     }
   }
 }
@@ -2721,11 +2713,11 @@ function closestNode(nodes, unvisitedNodes) {
   return currentClosest;
 }
 
-function updateNeighbors(nodes, node, boardArray, target, name, start, heuristic, weight) {
+function updateNeighbors(nodes, node, boardArray, target, name, start, heuristic) {
   let neighbors = getNeighbors(node.id, nodes, boardArray);
   for (let neighbor of neighbors) {
     if (target) {
-      updateNode(node, nodes[neighbor], nodes[target], name, nodes, nodes[start], heuristic, boardArray, weight);
+      updateNode(node, nodes[neighbor], nodes[target], name, nodes, nodes[start], heuristic, boardArray);
     } else {
       updateNode(node, nodes[neighbor]);
     }
@@ -2742,17 +2734,17 @@ function averageNumberOfNodesBetween(currentNode) {
 }
 
 
-function updateNode(currentNode, targetNode, actualTargetNode, name, nodes, actualStartNode, heuristic, boardArray,weight) {
+function updateNode(currentNode, targetNode, actualTargetNode, name, nodes, actualStartNode, heuristic, boardArray) {
   let distance = getDistance(currentNode, targetNode);
   let distanceToCompare;
   if (actualTargetNode && name === "CLA") {
-    let weight1 = targetNode.weight === weight ? weight : 1;
+    let weight = targetNode.weight === 15 ? 15 : 1;
     if (heuristic === "manhattanDistance") {
-      distanceToCompare = currentNode.distance + (distance[0] + weight1) * manhattanDistance(targetNode, actualTargetNode);
+      distanceToCompare = currentNode.distance + (distance[0] + weight) * manhattanDistance(targetNode, actualTargetNode);
     } else if (heuristic === "poweredManhattanDistance") {
       distanceToCompare = currentNode.distance + targetNode.weight + distance[0] + Math.pow(manhattanDistance(targetNode, actualTargetNode), 2);
     } else if (heuristic === "extraPoweredManhattanDistance") {
-      distanceToCompare = currentNode.distance + (distance[0] + weight1) * Math.pow(manhattanDistance(targetNode, actualTargetNode), 7);
+      distanceToCompare = currentNode.distance + (distance[0] + weight) * Math.pow(manhattanDistance(targetNode, actualTargetNode), 7);
     }
     let startNodeManhattanDistance = manhattanDistance(actualStartNode, actualTargetNode);
   } else if (actualTargetNode && name === "greedy") {
