@@ -1,4 +1,119 @@
 <html>
-    <a href="Pathfinding.html">Redirect to Pathfinding page</a>
-    <a href="Sorting.html">Redirect to Sorting page</a>
+<head>
+    <title>Algo Visualizer</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src='public/browser/sorting.js'></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link id="cssTheme" rel="stylesheet" href="public/styling/cssBasic.css"/>
+    <link rel="shortcut icon" type="image/png" href="public/styling/c_icon.png"/>
+    <style>
+        h1{
+            position: center;
+            text-align: center;
+            margin-top: 30px;
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        #tutorial {
+            /*position: absolute;*/
+            /*z-index: 3;*/
+            background-color: rgba(255, 255, 255, 1);
+            width: 40%;
+            height: 70%;
+            border: 2px solid #34495e;
+            border-radius: 4px;
+            text-align: center;
+            float: left;
+            margin-left: 5%;
+            margin-right: auto;
+            margin-top: auto;
+            margin-bottom: auto;
+            bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+        #tutorial2 {
+            /*position: absolute;*/
+            /*z-index: 3;*/
+            background-color: rgba(255, 255, 255, 1);
+            width: 40%;
+            height: 70%;
+            border: 2px solid #34495e;
+            border-radius: 4px;
+            text-align: center;
+            float: right;
+            margin-left: auto;
+            margin-right: 5%;
+            margin-top: auto;
+            margin-bottom: auto;
+            bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+        #skipButton {
+            color: #ffffff;
+            background-color: #1abc9c;
+            position: absolute;
+            left: 20%;
+            bottom: 20%;
+        }
+        #nextButton {
+            color: #ffffff;
+            background-color: #1abc9c;
+            position: absolute;
+            right: 20%;
+            bottom: 20%;
+        }
+        #mainTutorialImage {
+            /*width: 45%;*/
+            height: 40%;
+            padding-top: 15px;
+        }
+
+    </style>
+</head>
+
+<body>
+<div id='navbarDiv'>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a id="refreshButton" class="navbar-brand" href="#">EC504 Final Project</a>
+            </div>
+        </div>
+    </nav>
+</div>
+<div>
+    <h1>Welcome to Algorithm Visualizer!</h1>
+<!--    <h4 >EC504 Final Project</h4>-->
+    <div id='mainText'>
+        <ul>Niantong Dong   U55783192   niantong@scc1.bu.edu</ul>
+        <ul><li>Zixuan Shu 	 U48380935 zmshu@bu.edu</ul>
+        <ul>Chen-Wei Weng     U58151415      cwweng@bu.edu</ul>
+        <ul>Yiqin Zhang  U83608825 evezhang@bu.edu</ul>
+</div>
+</div>
+
+
+<div id="tutorial">
+    <ul><img id="mainTutorialImage" src="public/styling/c_icon.png"></ul>
+    <button id="skipButton" class="btn btn-default navbar-btn" type="button"><a href="Pathfinding.html">Pathfinding Visualizer</a></button>
+    <h6>What is a pathfinding algorithm?</h6>
+    <p>At its core, a pathfinding algorithm seeks to find the shortest path between two points. This application visualizes various pathfinding algorithms in action, and more!
+    All of the algorithms on this application are adapted for a 2D grid, where 90 degree turns have a "cost" of 1 and movements from a node to another have a "cost" of 1.</p>
+</div>
+<div id="tutorial2">
+    <ul><img id="mainTutorialImage" src="public/styling/sorting.png"></ul>
+    <h6>What is a sorting algorithm?</h6>
+    <p>For sorting algorithms, we implemented Bubble sort, Selection sort, Insertion sort, Quick sort, Heap sort, and Merge sort. </p>
+    <button id="nextButton" class="btn btn-default navbar-btn"  type="button"><a href="Sorting.html">Sorting Visualizer</a></button>
+</div>
+</body>
 </html>
+<!--<html>-->
+<!--    <a href="Pathfinding.html">Redirect to Pathfinding page</a>-->
+<!--    <a href="Sorting.html">Redirect to Sorting page</a>-->
+<!--</html>-->
