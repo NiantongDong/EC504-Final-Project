@@ -939,15 +939,18 @@ Board.prototype.changeStartNodeImages = function() {
     name = "A* Search";
   } else if (this.currentAlgorithm === "greedy") {
     name = "Greedy Best-first Search";
+  } else if (this.currentAlgorithm === "CLA" && this.currentHeuristic !== "extraPoweredManhattanDistance") {
+    name = "Swarm Algorithm";
+  } else if (this.currentAlgorithm === "CLA" && this.currentHeuristic === "extraPoweredManhattanDistance") {
+    name = "Convergent Swarm Algorithm";
+  } else if (this.currentAlgorithm === "bidirectional") {
+    name = "Bidirectional Swarm Algorithm";
   }
   if (unweighted.includes(this.currentAlgorithm)) {
     if (this.currentAlgorithm === "dfs") {
       document.getElementById("algorithmDescriptor").innerHTML = `${name} is <i><b>unweighted</b></i> and <i><b>does not guarantee</b></i> the shortest path!`;
-      document.getElementById("operationDescriptor").innerHTML = `Iterate over all possible paths from start node until they reach the target node.`;
-
     } else {
       document.getElementById("algorithmDescriptor").innerHTML = `${name} is <i><b>unweighted</b></i> and <i><b>guarantees</b></i> the shortest path!`;
-      document.getElementById("operationDescriptor").innerHTML = `Explore all neighbors from start node until they reach the target node.`;
     }
     document.getElementById("weightLegend").className = "strikethrough";
     for (let i = 0; i < 14; i++) {
@@ -956,10 +959,8 @@ Board.prototype.changeStartNodeImages = function() {
       document.styleSheets["1"].rules[j].style.backgroundImage = backgroundImage.replace("triangle", "spaceship");
     }
   } else {
-    if (this.currentAlgorithm === "greedy" ) {
+    if (this.currentAlgorithm === "greedy" || this.currentAlgorithm === "CLA") {
       document.getElementById("algorithmDescriptor").innerHTML = `${name} is <i><b>weighted</b></i> and <i><b>does not guarantee</b></i> the shortest path!`;
-      document.getElementById("operationDescriptor").innerHTML = `A heuristic : it selects the vertex closest to the target.`;
-
     }
     document.getElementById("weightLegend").className = "";
     for (let i = 0; i < 14; i++) {
@@ -970,11 +971,6 @@ Board.prototype.changeStartNodeImages = function() {
   }
   if (guaranteed.includes(this.currentAlgorithm)) {
     document.getElementById("algorithmDescriptor").innerHTML = `${name} is <i><b>weighted</b></i> and <i><b>guarantees</b></i> the shortest path!`;
-    if (this.currentAlgorithm === "dijkstra" ) {
-      document.getElementById("operationDescriptor").innerHTML = `Repeatedly examines the closest not-yet-examined vertex, adding its vertices to the set of vertices to be examined.`;
-    } else{
-      document.getElementById("operationDescriptor").innerHTML = `It combines exact cost of the path from the start point (Dijkstra) and  heuristic estimated cost to the target (Greedy BFS).`;
-    }
   }
 };
 
